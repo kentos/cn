@@ -47,6 +47,9 @@ jobs:
           changelog="${changelog//$'\r'/'%0D'}"
           echo ::set-output name=text::$changelog
 
+      - name: Display changelog
+        run: echo ${{ steps.changelog.outputs.text }}
+
       - name: Create GH Release
         id: create_release
         uses: actions/create-release@v1
@@ -58,7 +61,7 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            ${{steps.changelog.outputs.text}}
+            ${{ steps.changelog.outputs.text }}
 
       - name: "Output Step"
         env:
