@@ -2,7 +2,8 @@
   'use strict';
 
   function cn() {
-    return Array.from(arguments)
+    const args = arguments;
+    return Array.from(args)
       .filter(x => x)
       .map(arg => {
         if (['string', 'number'].includes(typeof arg)) {
