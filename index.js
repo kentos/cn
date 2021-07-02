@@ -6,7 +6,8 @@
     return Array.from(args)
       .filter(x => x)
       .map(arg => {
-        if (['string', 'number'].includes(typeof arg)) {
+        const type = typeof arg;
+        if (['string', 'number'].includes(type)) {
           return arg
         } else if (Array.isArray(arg)) {
           return cn.apply(null, arg)
