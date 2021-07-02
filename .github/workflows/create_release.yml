@@ -52,8 +52,6 @@ jobs:
         with:
           tag_name: ${{ steps.version-bump.outputs.newTag }}
           release_name: ${{ steps.version-bump.outputs.newTag }}
-          #  body: |
-          #   ${{steps.changelog.outputs.text}}
           draft: false
           prerelease: false
       - name: "Output Step"
