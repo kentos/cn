@@ -39,48 +39,4 @@ jobs:
         with:
           tag_name: ${{ steps.changelog.outputs.tag }}
           release_name: ${{ steps.changelog.outputs.tag }}
-          body: ${{ steps.changelog.outputs.changelog }}
-      # - name: "Automated Version Bump"
-      #   id: version-bump
-      #   uses: "phips28/gh-action-bump-version@master"
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag-prefix: ""
-      # - name: Get latest release tag
-      #   id: latest_tag
-      #   run: |
-      #     tag=$(git tag --sort=-creatordate | head -n 1)
-      #     echo ::set-output name=tag::$tag
-      # - name: Create changelog
-      #   id: changelog
-      #   run: |
-      #     changelog=$(git log ${{ steps.latest_tag.outputs.tag }}...$GITHUB_SHA --reverse --pretty="* %s ([%h](${{ env.repo }}/commit/%H))")
-      #     # https://github.community/t/set-output-truncates-multiline-strings/16852/2
-      #     changelog="${changelog//'%'/'%25'}"
-      #     changelog="${changelog//$'\n'/'%0A'}"
-      #     changelog="${changelog//$'\r'/'%0D'}"
-      #     echo ::set-output name=text::$changelog
-      # - name: Display changelog
-      #   run: |
-      #     ${{ steps.changelog.outputs.text }}
-      #     ${{ steps.latest_tag.outputs.tag }}
-      #     ${{ env.repo }}
-      #     ${{ steps.version-bump.outputs.newTag }}
-      #     echo $GITHUB_SHA
-      # - name: Create GH Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ steps.version-bump.outputs.newTag }}
-      #     release_name: ${{ steps.version-bump.outputs.newTag }}
-      #     draft: false
-      #     prerelease: false
-      #     body: |
-      #       ${{ steps.changelog.outputs.text }}
-      # - name: "Output Step"
-      #   env:
-      #     NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-      #   run: echo "new tag $NEW_TAG"
+          body: ${{ steps.changelog.outputs.clean_changelog }}
