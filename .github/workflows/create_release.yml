@@ -44,6 +44,18 @@ jobs:
           tag-prefix: ""
       - name: "cat package.json"
         run: cat ./package.json
+      - name: Create GH Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version-bump.outputs.newTag }}
+          release_name: ${{ steps.version-bump.outputs.newTag }}
+          #  body: |
+          #   ${{steps.changelog.outputs.text}}
+          draft: false
+          prerelease: false
       - name: "Output Step"
         env:
           NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
