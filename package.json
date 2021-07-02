@@ -1,6 +1,6 @@
 {
   "name": "cn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Compose className for react",
   "main": "index.js",
   "scripts": {
