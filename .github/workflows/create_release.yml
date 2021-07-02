@@ -48,7 +48,12 @@ jobs:
           echo ::set-output name=text::$changelog
 
       - name: Display changelog
-        run: echo ${{ steps.changelog.outputs.text }}
+        run: |
+          ${{ steps.changelog.outputs.text }}
+          ${{ steps.latest_tag.outputs.tag }}
+          ${{ env.repo }}
+          ${{ steps.version-bump.outputs.newTag }}
+          echo $GITHUB_SHA
 
       - name: Create GH Release
         id: create_release
