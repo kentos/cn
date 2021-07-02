@@ -1,0 +1,50 @@
+name: Create next release
+on: workflow_dispatch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # - uses: actions/checkout@v1
+      # - name: Generate new release tag
+      #   id: set_version
+      #   run: |
+      #     version=$(date -u +"${{ env.release_tag_prefix }}%Y%m%d_$GITHUB_RUN_NUMBER")
+      #     echo ::set-output name=version::$version
+      # - name: Get latest release tag
+      #   id: latest_tag
+      #   run: |
+      #     tag=$(git tag --sort=-creatordate | grep ${{ env.release_tag_prefix }} | head -n 1)
+      #     echo ::set-output name=tag::$tag
+      # - name: Create changelog
+      #   id: changelog
+      #   run: |
+      #     changelog=$(git log ${{ steps.latest_tag.outputs.tag }}...$GITHUB_SHA --reverse --pretty="- %s ([%h](${{ env.repo }}/commit/%H))")
+      #     # https://github.community/t/set-output-truncates-multiline-strings/16852/2
+      #     changelog="${changelog//'%'/'%25'}"
+      #     changelog="${changelog//$'\n'/'%0A'}"
+      #     changelog="${changelog//$'\r'/'%0D'}"
+      #     echo ::set-output name=text::$changelog
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: "cat package.json"
+        run: cat ./package.json
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v1"
+        with:
+          node-version: 16
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag-prefix: ""
+      - name: "cat package.json"
+        run: cat ./package.json
+      - name: "Output Step"
+        env:
+          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
+        run: echo "new tag $NEW_TAG"
